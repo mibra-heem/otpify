@@ -4,7 +4,6 @@ import 'package:otpify/otpify.dart';
 
 void main() {
   runApp(const MyApp());
-  
 }
 
 class MyApp extends StatelessWidget {
@@ -32,25 +31,25 @@ class Home extends StatelessWidget {
     return Scaffold(
       body: Otpify(
         fields: 5,
-        seconds: 30,
+        resendSecond: 30,
         fieldColor: Colors.lime,
         fieldTextColor: Colors.white,
         cursorColor: Colors.black,
+        borderColor: Colors.black,
         focusedBorderColor: Colors.deepOrange,
         resendAlignment: ResendAlignment.start,
-        onChanged: (value){
-          if(kDebugMode){
+        onChanged: (value) {
+          if (kDebugMode) {
             print("onChanged value : $value");
           }
         },
-        onResend: (){
-          if(kDebugMode){
+        onResend: () {
+          if (kDebugMode) {
             print("Resend button pressed");
           }
         },
-        onCompleted:
-         (value){
-          if(kDebugMode){
+        onCompleted: (value) {
+          if (kDebugMode) {
             print("onCompleted value is $value");
           }
         },
@@ -58,5 +57,3 @@ class Home extends StatelessWidget {
     );
   }
 }
-
-

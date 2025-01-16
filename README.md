@@ -4,7 +4,7 @@ Here's the updated README file with the full MIT License text included:
 
 # Otpify  
 
-**Otpify** is a highly customizable OTP (One-Time Password) input field widget for Flutter, designed to provide a seamless user experience. It features responsive and adaptive design, making it perfect for mobile screens of all sizes. The widget includes a resend OTP timer button, ensuring user convenience while maintaining functionality.
+**Otpify** A highly customizable OTP (One-Time Password) input field widget for Flutter, designed to provide a seamless user experience. It features an adaptive design, making it perfect for mobile screens of all sizes. The widget includes a resend OTP timer button, ensuring user convenience while maintaining functionality.
 
 ---
 
@@ -24,7 +24,7 @@ To use Otpify in your Flutter project, add it as a dependency in your `pubspec.y
 
 ```yaml  
 dependencies:  
-  otpify: ^0.0.1  
+  otpify: ^0.1.0  
 ```  
 
 Then, run the following command to fetch the package:  
@@ -84,15 +84,19 @@ class MyApp extends StatelessWidget {
 
 Below is a table of customizable parameters for the `Otpify` widget:  
 
-| Parameter      | Type           | Description                                                        | Default Value |  
-|----------------|----------------|--------------------------------------------------------------------|---------------| 
-| `height`       | `double`       | Specifies the height of OTP input fields.                          | `60`          |  
-| `width`        | `double`       | Specifies the width of OTP input fields.                           | `50`          |  
-| `fields`       | `int`          | Specifies the number of OTP input fields.                          | `4`           |  
-| `onChanged`    | `Function`     | Method triggered when the OTP value changes.                       | `null`        |  
-| `onCompleted`  | `Function`     | Method triggered when the user completes all input fields.         | `null`        |  
-| `onResend`     | `VoidCallback` | Callback triggered when resend button enabled. button.             | `null`        |  
-| `seconds`      | `int`          | Sets the duration for the resend OTP timer.                        | `30`          |  
+| Parameter               | Type           | Description                                                        | Default Value |  
+|-------------------------|----------------|--------------------------------------------------------------------|---------------| 
+| `height`                | `double`       | Specifies the height of OTP input fields.                          | `60`          |  
+| `width`                 | `double`       | Specifies the width of OTP input fields.                           | `50`          |  
+| `fields`                | `int`          | Specifies the number of OTP input fields.                          | `4`           |  
+| `onChanged`             | `Function`     | Method triggered when the OTP value changes.                       | `null`        |  
+| `onCompleted`           | `Function`     | Method triggered when the user completes all input fields.         | `null`        |  
+| `onResend`              | `VoidCallback` | Callback triggered when resend button enabled. button.             | `null`        |  
+| `resendSecond`          | `int`          | Sets the duration in second for the resend OTP timer.              | `30`          |  
+| `isResendButtonEnable`  | `bool`         | Shows the resend button below the OTP fields.                      | `true`        |  
+| `verticalSpacing`       | `double`       | Spacing between OTP fields and resend button.                      | `30`          |  
+
+
 
 ---
 

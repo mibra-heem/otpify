@@ -4,7 +4,8 @@ import 'package:otpify/otpify.dart';
 
 void main() {
   group('Otpify Widget Tests', () {
-    testWidgets('Renders OTP input fields correctly', (WidgetTester tester) async {
+    testWidgets('Renders OTP input fields correctly',
+        (WidgetTester tester) async {
       // Build the Otpify widget
       await tester.pumpWidget(MaterialApp(
         home: Scaffold(
@@ -41,7 +42,8 @@ void main() {
       await tester.enterText(find.byType(TextField).first, '1');
     });
 
-    testWidgets('Completes OTP after entering all digits', (WidgetTester tester) async {
+    testWidgets('Completes OTP after entering all digits',
+        (WidgetTester tester) async {
       // Build the Otpify widget
       await tester.pumpWidget(MaterialApp(
         home: Scaffold(

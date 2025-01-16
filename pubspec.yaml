@@ -1,6 +1,6 @@
 name: otpify
-description: Otpify is a customizable OTP input field widget for Flutter, offering a responsive design that adapts to various screen sizes. It includes a resend code timer button for added convenience.
-version: 0.0.2
+description: Otpify is a customizable OTP input field widget for Flutter, adapts to different mobile screen sizes. It includes a resend code timer button for added convenience.
+version: 0.1.0
 homepage: https://github.com/mibra-heem/otpify
 
 environment:
