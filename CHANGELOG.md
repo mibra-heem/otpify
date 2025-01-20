@@ -1,7 +1,7 @@
 # Changelog
 
-## Version 0.1.3 (2025-01-20)
-- updated example.
+## Version 0.1.4 (2025-01-20)
+- Updated the `README.md` file.
 
 ---
 

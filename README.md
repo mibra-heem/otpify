@@ -20,7 +20,7 @@ To use Otpify in your Flutter project, add it as a dependency in your `pubspec.y
 
 ```yaml  
 dependencies:  
-  otpify: ^0.1.3  
+  otpify: ^0.1.4  
 ```  
 
 Then, run the following command to fetch the package:  
@@ -58,15 +58,32 @@ class MyApp extends StatelessWidget {
       home: Scaffold(  
         appBar: AppBar(title: const Text('Otpify Example')),  
         body: Center(  
-          child: Otpify(  
-            fields: 6,  
-            onChanged: (value) {  
-              print("OTP Entered: $value");  
-            },  
-            onCompleted: (value) {  
-              print("Complete OTP: $value");  
-            },  
-          ),  
+          child: Otpify(
+            fields: 5,
+            resendSecond: 10,
+            borderRadiusValue: 24,
+            fieldColor: Colors.transparent,
+            fieldTextColor: Colors.black,
+            borderColor: Colors.blueGrey,
+            focusedBorderColor: Colors.purple,
+            resendAlignment: ResendAlignment.start,
+            resendText: "Resend code",
+            onChanged: (value) {
+              if (kDebugMode) {
+                print("onChanged value : $value");
+              }
+            },
+            onResend: () {
+              if (kDebugMode) {
+                print("Resend button pressed");
+              }
+            },
+            onCompleted: (value) {
+              if (kDebugMode) {
+                print("onCompleted value is $value");
+              }
+            },
+          ),,  
         ),  
       ),  
     );  
@@ -80,7 +97,7 @@ class MyApp extends StatelessWidget {
 
 Here’s a quick demo of how the Otpify package works:
 
-![Otpify Demo](assets/example.gif)
+![Otpify Demo](https://github.com/mibra-heem/otpify/raw/main/assets/example.gif)
 
 ---
 
