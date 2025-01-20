@@ -20,7 +20,7 @@ To use Otpify in your Flutter project, add it as a dependency in your `pubspec.y
 
 ```yaml  
 dependencies:  
-  otpify: ^0.1.1  
+  otpify: ^0.1.2  
 ```  
 
 Then, run the following command to fetch the package:  
@@ -89,7 +89,7 @@ Below is a table of customizable parameters for the `Otpify` widget:
 | `onCompleted`           | `Function`     | Method triggered when the user completes all input fields.         | `null`        |  
 | `onResend`              | `VoidCallback` | Callback triggered when resend button enabled. button.             | `null`        |  
 | `resendSecond`          | `int`          | Sets the duration in second for the resend OTP timer.              | `30`          |  
-| `isResendButtonEnable`  | `bool`         | Shows the resend button below the OTP fields.                      | `true`        |  
+| `showResendButton`      | `bool`         | To show the resend button below the OTP fields.                    | `true`        |  
 | `verticalSpacing`       | `double`       | Spacing between OTP fields and resend button.                      | `30`          |  
 
 

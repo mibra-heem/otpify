@@ -31,13 +31,14 @@ class Home extends StatelessWidget {
     return Scaffold(
       body: Otpify(
         fields: 5,
-        resendSecond: 30,
-        fieldColor: Colors.lime,
-        fieldTextColor: Colors.white,
-        cursorColor: Colors.black,
-        borderColor: Colors.black,
-        focusedBorderColor: Colors.deepOrange,
+        resendSecond: 10,
+        borderRadiusValue: 24,
+        fieldColor: Colors.transparent,
+        fieldTextColor: Colors.black,
+        borderColor: Colors.blueGrey,
+        focusedBorderColor: Colors.purple,
         resendAlignment: ResendAlignment.start,
+        resendText: "Resend code",
         onChanged: (value) {
           if (kDebugMode) {
             print("onChanged value : $value");

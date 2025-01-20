@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dimensions.dart';
@@ -84,6 +85,9 @@ class Otpify extends StatefulWidget {
   /// Text displayed on the resend button.
   final String resendText;
 
+  /// Whether to show resend button.
+  final bool showResendButton;
+
   /// Spacing between OTP fields and resend button.
   final double? verticalSpacing;
 
@@ -120,13 +124,14 @@ class Otpify extends StatefulWidget {
     this.onResend,
     this.padding,
     this.resendAlignment = ResendAlignment.start,
-    this.resendColor = Colors.black,
-    this.resendEnableColor = Colors.grey,
+    this.resendColor = Colors.grey,
+    this.resendEnableColor = Colors.black,
     this.resendFontFamily,
     this.resendFontSize,
     this.resendFontWeight,
     this.resendSecond,
     this.resendText = "RESEND CODE",
+    this.showResendButton = true,
     this.verticalSpacing,
     this.width,
   });
@@ -139,6 +144,7 @@ class _OtpifyState extends State<Otpify> {
   final ValueNotifier<int> _counter = ValueNotifier<int>(0);
   Timer? _timer;
   bool _isResendEnabled = true;
+  bool _isFilled = false;
 
   @override
   void dispose() {
@@ -155,8 +161,12 @@ class _OtpifyState extends State<Otpify> {
 
   /// Starts the countdown timer for the resend button.
   void _startCountDown() {
+    if(kDebugMode) print("starting count down");
+
     _counter.value = widget.resendSecond ?? 30;
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    if(kDebugMode) print("${_counter.value}");
+
       if (_counter.value > 0) {
         _counter.value -= 1;
       } else {
@@ -260,6 +270,10 @@ class _OtpifyState extends State<Otpify> {
                               .join();
                           // Triggering onCompleted Callback on all otp fields complete
                           widget.onCompleted?.call(otp);
+                          _isFilled = true;
+                        }else{
+                          _isFilled = false;
+
                         }
                       },
                     ),
@@ -269,34 +283,36 @@ class _OtpifyState extends State<Otpify> {
             }),
           ),
           // Resend Button
-          widget.isResendButtonEnable
-              ? GestureDetector(
-                  onTap: _isResendEnabled
-                      ? () {
-                          _startCountDown();
-                          widget.onResend?.call();
-                        }
-                      : null,
-                  child: ValueListenableBuilder<int>(
-                    valueListenable: _counter,
-                    builder: (context, value, child) {
-                      _isResendEnabled = value == 0;
-                      return Text(
-                        _isResendEnabled
-                            ? widget.resendText
-                            : "${widget.resendText} $value",
-                        style: TextStyle(
-                          color: _isResendEnabled
-                              ? widget.resendColor
-                              : widget.resendEnableColor,
-                          fontSize: widget.resendFontSize ?? 14,
-                          fontWeight: widget.resendFontWeight,
-                          fontFamily: widget.resendFontFamily,
-                        ),
-                      );
-                    },
-                  ),
-                )
+          widget.showResendButton
+              ? ValueListenableBuilder<int>(
+                valueListenable: _counter,
+                builder: (context, value, child) {
+                  _isResendEnabled = value == 0;
+                  return GestureDetector(
+                    onTap: _isResendEnabled
+                  ? () {
+                      if(_isFilled){
+                        _startCountDown();
+                        widget.onResend?.call();
+                      }
+                    }
+                  : null,
+                    child: Text(
+                      _isResendEnabled
+                          ? widget.resendText
+                          : "${widget.resendText} $value",
+                      style: TextStyle(
+                        color: _isResendEnabled
+                            ? widget.resendEnableColor
+                            : widget.resendColor,
+                        fontSize: widget.resendFontSize ?? 14,
+                        fontWeight: widget.resendFontWeight,
+                        fontFamily: widget.resendFontFamily,
+                      ),
+                    ),
+                  );
+                },
+              )
               : SizedBox(),
         ],
       ),
