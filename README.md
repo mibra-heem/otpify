@@ -76,6 +76,14 @@ class MyApp extends StatelessWidget {
 
 ---
 
+## Otpify Example
+
+Here’s a quick demo of how the Otpify package works:
+
+![Otpify Demo](Add example.gif link from github)
+
+---
+
 ## Parameters  
 
 Below is a table of customizable parameters for the `Otpify` widget:  
@@ -91,7 +99,6 @@ Below is a table of customizable parameters for the `Otpify` widget:
 | `resendSecond`          | `int`          | Sets the duration in second for the resend OTP timer.              | `30`          |  
 | `showResendButton`      | `bool`         | To show the resend button below the OTP fields.                    | `true`        |  
 | `verticalSpacing`       | `double`       | Spacing between OTP fields and resend button.                      | `30`          |  
-
 
 
 ---

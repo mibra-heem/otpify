@@ -3,46 +3,48 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:otpify/otpify.dart';
 
 void main() {
-  testWidgets('Focus changes when tapping on OTP field',
-      (WidgetTester tester) async {
-    // Build the Otpify widget
-    await tester.pumpWidget(MaterialApp(
-      home: Scaffold(
-        body: Otpify(
-          fields: 4,
-          onChanged: (value) {},
-          onCompleted: (otp) {},
+  testWidgets('Resend button timer functionality', (WidgetTester tester) async {
+    // Mock widget properties
+    const String resendText = "RESEND CODE";
+    const int resendSeconds = 5;
+    bool isResendCalled = false;
+
+    // Build the widget
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: Otpify(
+            fields: 4,
+            resendText: resendText,
+            resendSecond: resendSeconds,
+            resendEnableColor: Colors.green,
+            resendColor: Colors.grey,
+            onResend: () => isResendCalled = true,
+          ),
         ),
       ),
-    ));
+    );
 
-    // Verify if the OTP fields are rendered
-    expect(find.byType(TextField), findsNWidgets(4));
+    // Verify initial state (timer = 0, button enabled)
+    expect(find.text(resendText), findsOneWidget);
+    expect(isResendCalled, isFalse);
 
-    // Tap on the first OTP field to set focus
-    await tester.tap(find.byType(TextField).first);
-    await tester.pumpAndSettle();
+    // Tap the button to start the timer
+    await tester.tap(find.text(resendText));
+    await tester.pump(); // Trigger onTap logic
 
-    // Simulate typing into the first TextField
-    await tester.enterText(find.byType(TextField).first, '1');
-    await tester.pumpAndSettle();
+    // Verify button is disabled and timer starts (e.g., RESEND CODE 5)
+    expect(find.text("$resendText $resendSeconds"), findsOneWidget);
+    expect(isResendCalled, isTrue);
 
-    // Check if the first TextField has text (i.e., is focused and the user typed)
-    expect(
-        tester.widget<TextField>(find.byType(TextField).first).controller!.text,
-        isNotEmpty);
+    // Simulate countdown by pumping time
+    for (int i = resendSeconds - 1; i >= 0; i--) {
+      await tester.pump(const Duration(seconds: 1));
+      expect(find.text("$resendText $i"), findsOneWidget);
+    }
 
-    // Tap on the second OTP field to set focus
-    await tester.tap(find.byType(TextField).at(1));
-    await tester.pumpAndSettle();
-
-    // Simulate typing into the second TextField
-    await tester.enterText(find.byType(TextField).at(1), '2');
-    await tester.pumpAndSettle();
-
-    // Check if the second TextField has text (i.e., is focused and the user typed)
-    expect(
-        tester.widget<TextField>(find.byType(TextField).at(1)).controller!.text,
-        isNotEmpty);
+    // Verify button re-enables after countdown
+    await tester.pump(const Duration(seconds: 1)); // Simulate timer ending
+    expect(find.text(resendText), findsOneWidget);
   });
 }
