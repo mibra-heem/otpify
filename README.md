@@ -80,7 +80,7 @@ class MyApp extends StatelessWidget {
 
 Here’s a quick demo of how the Otpify package works:
 
-![Otpify Demo](Add example.gif link from github)
+![Otpify Demo](assets/example.gif)
 
 ---
 
