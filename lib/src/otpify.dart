@@ -161,11 +161,11 @@ class _OtpifyState extends State<Otpify> {
 
   /// Starts the countdown timer for the resend button.
   void _startCountDown() {
-    if(kDebugMode) print("starting count down");
+    if (kDebugMode) print("starting count down");
 
     _counter.value = widget.resendSecond ?? 30;
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-    if(kDebugMode) print("${_counter.value}");
+      if (kDebugMode) print("${_counter.value}");
 
       if (_counter.value > 0) {
         _counter.value -= 1;
@@ -271,9 +271,8 @@ class _OtpifyState extends State<Otpify> {
                           // Triggering onCompleted Callback on all otp fields complete
                           widget.onCompleted?.call(otp);
                           _isFilled = true;
-                        }else{
+                        } else {
                           _isFilled = false;
-
                         }
                       },
                     ),
@@ -285,34 +284,34 @@ class _OtpifyState extends State<Otpify> {
           // Resend Button
           widget.showResendButton
               ? ValueListenableBuilder<int>(
-                valueListenable: _counter,
-                builder: (context, value, child) {
-                  _isResendEnabled = value == 0;
-                  return GestureDetector(
-                    onTap: _isResendEnabled
-                  ? () {
-                      if(_isFilled){
-                        _startCountDown();
-                        widget.onResend?.call();
-                      }
-                    }
-                  : null,
-                    child: Text(
-                      _isResendEnabled
-                          ? widget.resendText
-                          : "${widget.resendText} $value",
-                      style: TextStyle(
-                        color: _isResendEnabled
-                            ? widget.resendEnableColor
-                            : widget.resendColor,
-                        fontSize: widget.resendFontSize ?? 14,
-                        fontWeight: widget.resendFontWeight,
-                        fontFamily: widget.resendFontFamily,
+                  valueListenable: _counter,
+                  builder: (context, value, child) {
+                    _isResendEnabled = value == 0;
+                    return GestureDetector(
+                      onTap: _isResendEnabled
+                          ? () {
+                              if (_isFilled) {
+                                _startCountDown();
+                                widget.onResend?.call();
+                              }
+                            }
+                          : null,
+                      child: Text(
+                        _isResendEnabled
+                            ? widget.resendText
+                            : "${widget.resendText} $value",
+                        style: TextStyle(
+                          color: _isResendEnabled
+                              ? widget.resendEnableColor
+                              : widget.resendColor,
+                          fontSize: widget.resendFontSize ?? 14,
+                          fontWeight: widget.resendFontWeight,
+                          fontFamily: widget.resendFontFamily,
+                        ),
                       ),
-                    ),
-                  );
-                },
-              )
+                    );
+                  },
+                )
               : SizedBox(),
         ],
       ),

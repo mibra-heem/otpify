@@ -2,4 +2,5 @@
 
 Here’s a quick demo of how the Otpify package works:
 
-![Otpify Demo](example.gif)
+![Otpify Demo](assets/example.gif)
+
