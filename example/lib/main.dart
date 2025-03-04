@@ -38,7 +38,7 @@ class Home extends StatelessWidget {
         borderColor: Colors.blueGrey,
         focusedBorderColor: Colors.purple,
         resendAlignment: ResendAlignment.start,
-        resendText: "Resend code",
+        resendText: "Try again",
         onChanged: (value) {
           if (kDebugMode) {
             print("onChanged value : $value");

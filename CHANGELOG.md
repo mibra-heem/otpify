@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 0.1.5 (2025-03-04)
+- Updated the `otpify.dart` file.
+- Optimized the code.
+- Deleted some extra files.
+
+---
+
 ## Version 0.1.4 (2025-01-20)
 - Updated the `README.md` file.
 
