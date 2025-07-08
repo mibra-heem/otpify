@@ -93,13 +93,13 @@ class MyApp extends StatelessWidget {
 
 ---
 
-## Otpify Example
+<h2>Otpify Example</h2>
 
-Here’s a quick demo of how the Otpify package works:
+<p>Here’s a quick demo of how the Otpify package works:</p>
 
-![Otpify Demo](https://github.com/mibra-heem/otpify/raw/main/assets/example.gif)
-
----
+<p align="center">
+  <img src="https://github.com/mibra-heem/otpify/raw/main/assets/example.gif" width="380" />
+</p>
 
 ## Parameters  
 
