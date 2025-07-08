@@ -97,7 +97,7 @@ class MyApp extends StatelessWidget {
 
 <p>Here’s a quick demo of how the Otpify package works:</p>
 
-<p align="center">
+<p align="left">
   <img src="https://github.com/mibra-heem/otpify/raw/main/assets/example.gif" width="380" />
 </p>
 
