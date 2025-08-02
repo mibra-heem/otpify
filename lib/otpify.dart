@@ -6,10 +6,45 @@ import 'package:flutter/services.dart';
 /// A widget that provides OTP (One-Time Password) input functionality
 /// with customizable styles, validation, and a resend button.
 class Otpify extends StatefulWidget {
+  /// Constructs the [Otpify] widget.
+  Otpify({
+    required this.fields,
+    this.borderColor,
+    this.borderRadius,
+    this.borderRadiusValue,
+    this.borderWidth,
+    this.cursorColor,
+    this.fieldColor,
+    this.fieldSpacing,
+    this.fieldTextColor,
+    this.fieldTextStyle,
+    this.focusedBorderColor,
+    this.focusedBorderWidth,
+    this.height,
+    this.isResendButtonEnable = true,
+    this.onChanged,
+    this.onCompleted,
+    this.onResend,
+    this.padding,
+    this.resendAlignment = ResendAlignment.start,
+    this.resendEnableColor,
+    this.resendDisableColor,
+    this.resendFontFamily,
+    this.resendFontSize,
+    this.resendFontWeight,
+    this.resendSecond,
+    this.resendText = 'RESEND CODE',
+    this.showResendButton = true,
+    this.verticalSpacing,
+    this.width,
+    super.key,
+  });
+
   /// Border color of the OTP fields.
   final Color? borderColor;
 
-  /// Border radius of the OTP fields (overrides [borderRadiusValue] if provided).
+  /// Border radius of the OTP fields,
+  /// (overrides [borderRadiusValue] if provided).
   final BorderRadiusGeometry? borderRadius;
 
   /// Border radius value for the OTP fields.
@@ -49,10 +84,10 @@ class Otpify extends StatefulWidget {
   final bool isResendButtonEnable;
 
   /// Callback function triggered when the value in any OTP field changes.
-  final Function(String value)? onChanged;
+  final void Function(String value)? onChanged;
 
   /// Callback function triggered when all OTP fields are filled.
-  final Function(String value)? onCompleted;
+  final void Function(String value)? onCompleted;
 
   /// Callback function triggered when the resend button is tapped.
   final VoidCallback? onResend;
@@ -64,10 +99,10 @@ class Otpify extends StatefulWidget {
   final ResendAlignment resendAlignment;
 
   /// Color of the resend button text when it is enabled.
-  final Color? resendColor;
+  final Color? resendEnableColor;
 
   /// Color of the resend button text when it is disabled.
-  final Color? resendEnableColor;
+  final Color? resendDisableColor;
 
   /// Font family of the resend button text.
   final String? resendFontFamily;
@@ -93,47 +128,13 @@ class Otpify extends StatefulWidget {
   /// Width of each OTP field.
   final double? width;
 
-  // A list of ValueNotifier<bool> to track the focus state of each OTP field.
+  /// A list of [ValueNotifier] bool to track the focus state of each OTP field.
   late final List<ValueNotifier<bool>> _focusNotifiers =
       List.generate(fields, (_) => ValueNotifier(false));
 
-  // A list of TextEditingController to manage the text input for each OTP field.
+  /// A list of [TextEditingController] to manage the text input for each OTP field.
   late final List<TextEditingController> _otpControllers =
       List.generate(fields, (_) => TextEditingController());
-
-  /// Constructs the [Otpify] widget.
-  Otpify({
-    super.key,
-    this.borderColor,
-    this.borderRadius,
-    this.borderRadiusValue,
-    this.borderWidth,
-    this.cursorColor,
-    this.fieldColor,
-    this.fieldSpacing,
-    this.fieldTextColor,
-    this.fieldTextStyle,
-    required this.fields,
-    this.focusedBorderColor,
-    this.focusedBorderWidth,
-    this.height,
-    this.isResendButtonEnable = true,
-    this.onChanged,
-    this.onCompleted,
-    this.onResend,
-    this.padding,
-    this.resendAlignment = ResendAlignment.start,
-    this.resendColor = Colors.grey,
-    this.resendEnableColor = Colors.black,
-    this.resendFontFamily,
-    this.resendFontSize,
-    this.resendFontWeight,
-    this.resendSecond,
-    this.resendText = "RESEND CODE",
-    this.showResendButton = true,
-    this.verticalSpacing,
-    this.width,
-  });
 
   @override
   State<Otpify> createState() => _OtpifyState();
@@ -149,10 +150,10 @@ class _OtpifyState extends State<Otpify> {
   void dispose() {
     _timer?.cancel();
     _counter.dispose();
-    for (var notifier in widget._focusNotifiers) {
+    for (final notifier in widget._focusNotifiers) {
       notifier.dispose();
     }
-    for (var controller in widget._otpControllers) {
+    for (final controller in widget._otpControllers) {
       controller.dispose();
     }
     super.dispose();
@@ -160,12 +161,8 @@ class _OtpifyState extends State<Otpify> {
 
   /// Starts the countdown timer for the resend button.
   void _startCountDown() {
-    if (kDebugMode) print("starting count down");
-
     _counter.value = widget.resendSecond ?? 30;
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (kDebugMode) print("${_counter.value}");
-
       if (_counter.value > 0) {
         _counter.value -= 1;
       } else {
@@ -174,14 +171,16 @@ class _OtpifyState extends State<Otpify> {
     });
   }
 
-  /// Updates the focus state of the OTP fields based on the currently focused index.
+  /// Updates the focus state of the OTP fields
+  /// based on the currently focused index.
   void _updateFocusState(int focusedIndex) {
-    for (int i = 0; i < widget._focusNotifiers.length; i++) {
+    for (var i = 0; i < widget._focusNotifiers.length; i++) {
       widget._focusNotifiers[i].value = i == focusedIndex;
     }
   }
 
-  /// Returns the cross-axis alignment for the resend button based on the alignment setting.
+  /// Returns the cross-axis alignment for the resend button
+  /// based on the alignment setting.
   CrossAxisAlignment _getResendAlignment(ResendAlignment alignment) {
     switch (alignment) {
       case ResendAlignment.start:
@@ -196,7 +195,7 @@ class _OtpifyState extends State<Otpify> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: widget.padding ?? EdgeInsets.all(20),
+      padding: widget.padding ?? const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: _getResendAlignment(widget.resendAlignment),
         mainAxisAlignment: MainAxisAlignment.center,
@@ -210,17 +209,17 @@ class _OtpifyState extends State<Otpify> {
               return ValueListenableBuilder<bool>(
                 valueListenable: widget._focusNotifiers[index],
                 builder: (context, isFocused, child) {
+                  final color = Theme.of(context).colorScheme;
                   return Container(
-                    height: widget.height ?? 60,
+                    height: widget.height ?? 50,
                     width: widget.width ?? 50,
                     decoration: BoxDecoration(
-                      color: widget.fieldColor ?? Colors.transparent,
+                      color: widget.fieldColor ?? color.surfaceBright,
                       borderRadius: widget.borderRadius ??
-                          BorderRadius.circular(
-                              widget.borderRadiusValue ?? 12),
+                          BorderRadius.circular(widget.borderRadiusValue ?? 12),
                       border: Border.all(
                         color: isFocused
-                            ? (widget.focusedBorderColor ?? Colors.black)
+                            ? (widget.focusedBorderColor ?? color.outline)
                             : (widget.borderColor ?? Colors.grey),
                         width: isFocused
                             ? (widget.focusedBorderWidth ?? 2)
@@ -229,12 +228,12 @@ class _OtpifyState extends State<Otpify> {
                     ),
                     alignment: Alignment.center,
                     child: TextField(
-                      // maxLength: 1,
                       style: widget.fieldTextStyle ??
                           TextStyle(
-                              color: widget.fieldTextColor ?? Colors.black),
+                            color: widget.fieldTextColor ?? color.onSurface,
+                          ),
                       controller: widget._otpControllers[index],
-                      cursorColor: widget.cursorColor ?? Colors.black,
+                      cursorColor: widget.cursorColor ?? color.primary,
                       textAlign: TextAlign.center,
                       keyboardType: TextInputType.number,
                       inputFormatters: [
@@ -252,7 +251,8 @@ class _OtpifyState extends State<Otpify> {
                         widget.onChanged?.call(value);
                         widget._otpControllers[index].text = value;
 
-                        // Automatically move to the next or previous field based on input
+                        // Automatically move to the next
+                        //or previous field based on input
                         if (value.isNotEmpty && index < widget.fields - 1) {
                           _updateFocusState(index + 1);
                           FocusScope.of(context).nextFocus();
@@ -266,11 +266,16 @@ class _OtpifyState extends State<Otpify> {
                           final otp = widget._otpControllers
                               .map((controller) => controller.text)
                               .join();
-                          // Triggering onCompleted Callback on all otp fields complete
+                          // Triggering onCompleted Callback
+                          // on all otp fields complete
                           widget.onCompleted?.call(otp);
-                          _isFilled = true;
+                          setState(() {
+                            _isFilled = true;
+                          });
                         } else {
-                          _isFilled = false;
+                          setState(() {
+                            _isFilled = false;
+                          });
                         }
                       },
                     ),
@@ -280,37 +285,38 @@ class _OtpifyState extends State<Otpify> {
             }),
           ),
           // Resend Button
-          widget.showResendButton
-              ? ValueListenableBuilder<int>(
-                  valueListenable: _counter,
-                  builder: (context, value, child) {
-                    _isResendEnabled = value == 0;
-                    return GestureDetector(
-                      onTap: _isResendEnabled
-                          ? () {
-                              if (_isFilled) {
-                                _startCountDown();
-                                widget.onResend?.call();
-                              }
-                            }
-                          : null,
-                      child: Text(
-                        _isResendEnabled
-                            ? widget.resendText
-                            : "${widget.resendText} $value",
-                        style: TextStyle(
-                          color: _isResendEnabled
-                              ? widget.resendEnableColor
-                              : widget.resendColor,
-                          fontSize: widget.resendFontSize ?? 14,
-                          fontWeight: widget.resendFontWeight,
-                          fontFamily: widget.resendFontFamily,
-                        ),
-                      ),
-                    );
-                  },
-                )
-              : SizedBox(),
+          if (widget.showResendButton)
+            ValueListenableBuilder<int>(
+              valueListenable: _counter,
+              builder: (context, value, child) {
+                _isResendEnabled = value == 0;
+                return GestureDetector(
+                  onTap: _isResendEnabled
+                      ? () {
+                          if (_isFilled) {
+                            _startCountDown();
+                            widget.onResend?.call();
+                          }
+                        }
+                      : null,
+                  child: Text(
+                    _isResendEnabled
+                        ? widget.resendText
+                        : '${widget.resendText} $value',
+                    style: TextStyle(
+                      color: (_isResendEnabled && _isFilled)
+                          ? widget.resendEnableColor
+                          : widget.resendDisableColor,
+                      fontSize: widget.resendFontSize ?? 14,
+                      fontWeight: widget.resendFontWeight,
+                      fontFamily: widget.resendFontFamily,
+                    ),
+                  ),
+                );
+              },
+            )
+          else
+            const SizedBox(),
         ],
       ),
     );

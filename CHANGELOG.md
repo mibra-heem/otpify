@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 0.1.6 (2025-08-02)
+- Updated the `lib/otpify.dart` file.
+- Updated the `example/lib/main.dart` file.
+- Changed `resendColor` property to `resendEnableColor`.
+- Changed `resendEnableColor` property to `resendDisableColor`.
+- State Management on resend button.
+- Light/Dark Theme compatibility.
+- Optimized the code.
+
+---
+
 ## Version 0.1.5 (2025-03-04)
 - Updated the `otpify.dart` file.
 - Optimized the code.

@@ -20,7 +20,7 @@ To use Otpify in your Flutter project, add it as a dependency in your `pubspec.y
 
 ```yaml  
 dependencies:  
-  otpify: ^0.1.4  
+  otpify: ^0.1.6  
 ```  
 
 Then, run the following command to fetch the package:  
@@ -52,42 +52,29 @@ void main() {
 class MyApp extends StatelessWidget {  
   const MyApp({Key? key}) : super(key: key);  
 
-  @override  
-  Widget build(BuildContext context) {  
-    return MaterialApp(  
-      home: Scaffold(  
-        appBar: AppBar(title: const Text('Otpify Example')),  
-        body: Center(  
-          child: Otpify(
-            fields: 5,
-            resendSecond: 10,
-            borderRadiusValue: 24,
-            fieldColor: Colors.transparent,
-            fieldTextColor: Colors.black,
-            borderColor: Colors.blueGrey,
-            focusedBorderColor: Colors.purple,
-            resendAlignment: ResendAlignment.start,
-            resendText: "Resend code",
-            onChanged: (value) {
-              if (kDebugMode) {
-                print("onChanged value : $value");
-              }
-            },
-            onResend: () {
-              if (kDebugMode) {
-                print("Resend button pressed");
-              }
-            },
-            onCompleted: (value) {
-              if (kDebugMode) {
-                print("onCompleted value is $value");
-              }
-            },
-          ),,  
-        ),  
-      ),  
-    );  
-  }  
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Otpify Demo'),),
+      body: Otpify(
+        fields: 5,
+        resendSecond: 30,
+        borderRadiusValue: 16,
+        resendAlignment: ResendAlignment.start,
+        resendText: 'Resend code',
+        resendDisableColor: Colors.grey[600],
+        onChanged: (value) {
+          /// Perform action on field change.
+        },
+        onCompleted: (code) {
+          /// Assign [code] to your TextController to get the full code.
+        },
+        onResend: () {
+          /// Initiate OnResendEvent() 
+        },
+      ),
+    );
+  } 
 }  
 ```  
 

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:otpify/otpify.dart';
 
@@ -14,8 +13,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      darkTheme: ThemeData.dark(
+        useMaterial3: true,
+      ),
+      theme: ThemeData.light(
         useMaterial3: true,
       ),
       home: Home(),
@@ -29,30 +30,24 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Otpify Demo'),
+      ),
       body: Otpify(
         fields: 5,
-        resendSecond: 10,
-        borderRadiusValue: 24,
-        fieldColor: Colors.transparent,
-        fieldTextColor: Colors.black,
-        borderColor: Colors.blueGrey,
-        focusedBorderColor: Colors.purple,
+        resendSecond: 15,
+        borderRadiusValue: 16,
         resendAlignment: ResendAlignment.start,
-        resendText: "Try again",
+        resendText: 'Resend code',
+        resendDisableColor: Colors.grey[600],
         onChanged: (value) {
-          if (kDebugMode) {
-            print("onChanged value : $value");
-          }
+          /// Perform action on field change.
+        },
+        onCompleted: (code) {
+          /// Assign [code] to your TextController to get the full code.
         },
         onResend: () {
-          if (kDebugMode) {
-            print("Resend button pressed");
-          }
-        },
-        onCompleted: (value) {
-          if (kDebugMode) {
-            print("onCompleted value is $value");
-          }
+          /// Initiate OnResendEvent()
         },
       ),
     );
