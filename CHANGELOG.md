@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 0.1.7 (2025-08-02)
+- Updated the `lib/otpify.dart` file.
+- InputDecoration fix.
+
+---
+
 ## Version 0.1.6 (2025-08-02)
 - Updated the `lib/otpify.dart` file.
 - Updated the `example/lib/main.dart` file.

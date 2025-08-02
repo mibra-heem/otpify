@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -194,131 +193,129 @@ class _OtpifyState extends State<Otpify> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: widget.padding ?? const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: _getResendAlignment(widget.resendAlignment),
-        mainAxisAlignment: MainAxisAlignment.center,
-        spacing: widget.verticalSpacing ?? 30,
-        children: [
-          // OTP Fields
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            spacing: widget.fieldSpacing ?? 0,
-            children: List.generate(widget.fields, (index) {
-              return ValueListenableBuilder<bool>(
-                valueListenable: widget._focusNotifiers[index],
-                builder: (context, isFocused, child) {
-                  final color = Theme.of(context).colorScheme;
-                  return Container(
-                    height: widget.height ?? 50,
-                    width: widget.width ?? 50,
-                    decoration: BoxDecoration(
-                      color: widget.fieldColor ?? color.surfaceBright,
-                      borderRadius: widget.borderRadius ??
-                          BorderRadius.circular(widget.borderRadiusValue ?? 12),
-                      border: Border.all(
-                        color: isFocused
-                            ? (widget.focusedBorderColor ?? color.outline)
-                            : (widget.borderColor ?? Colors.grey),
-                        width: isFocused
-                            ? (widget.focusedBorderWidth ?? 2)
-                            : (widget.borderWidth ?? 1.5),
-                      ),
+    return Column(
+      crossAxisAlignment: _getResendAlignment(widget.resendAlignment),
+      mainAxisAlignment: MainAxisAlignment.center,
+      spacing: widget.verticalSpacing ?? 30,
+      children: [
+        // OTP Fields
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          spacing: widget.fieldSpacing ?? 0,
+          children: List.generate(widget.fields, (index) {
+            return ValueListenableBuilder<bool>(
+              valueListenable: widget._focusNotifiers[index],
+              builder: (context, isFocused, child) {
+                return Container(
+                  height: widget.height ?? 50,
+                  width: widget.width ?? 50,
+                  decoration: BoxDecoration(
+                    color: widget.fieldColor,
+                    borderRadius: widget.borderRadius ??
+                        BorderRadius.circular(widget.borderRadiusValue ?? 12),
+                    border: Border.all(
+                      color: isFocused
+                          ? (widget.focusedBorderColor ?? Colors.black87)
+                          : (widget.borderColor ?? Colors.grey),
+                      width: isFocused
+                          ? (widget.focusedBorderWidth ?? 2)
+                          : (widget.borderWidth ?? 1.5),
                     ),
-                    alignment: Alignment.center,
-                    child: TextField(
-                      style: widget.fieldTextStyle ??
-                          TextStyle(
-                            color: widget.fieldTextColor ?? color.onSurface,
-                          ),
-                      controller: widget._otpControllers[index],
-                      cursorColor: widget.cursorColor ?? color.primary,
-                      textAlign: TextAlign.center,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [
-                        LengthLimitingTextInputFormatter(1),
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
-                      decoration: const InputDecoration(
-                        counterText: '',
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.zero,
-                      ),
-                      onTap: () => _updateFocusState(index),
-                      onChanged: (value) {
-                        // Triggering onChange Callback on otp field change
-                        widget.onChanged?.call(value);
-                        widget._otpControllers[index].text = value;
+                  ),
+                  alignment: Alignment.center,
+                  child: TextField(
+                    style: widget.fieldTextStyle ??
+                        TextStyle(
+                          color: widget.fieldTextColor,
+                        ),
+                    controller: widget._otpControllers[index],
+                    cursorColor: widget.cursorColor,
+                    textAlign: TextAlign.center,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(1),
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                    decoration: const InputDecoration(
+                      filled: false,
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      contentPadding: EdgeInsets.zero,
+                    ),
+                    onTap: () => _updateFocusState(index),
+                    onChanged: (value) {
+                      // Triggering onChange Callback on otp field change
+                      widget.onChanged?.call(value);
+                      widget._otpControllers[index].text = value;
 
-                        // Automatically move to the next
-                        //or previous field based on input
-                        if (value.isNotEmpty && index < widget.fields - 1) {
-                          _updateFocusState(index + 1);
-                          FocusScope.of(context).nextFocus();
-                        } else if (value.isEmpty && index > 0) {
-                          _updateFocusState(index - 1);
-                          FocusScope.of(context).previousFocus();
-                        }
-                        // Submit OTP if all fields are filled
-                        if (widget._otpControllers.every(
-                            (controller) => controller.text.isNotEmpty)) {
-                          final otp = widget._otpControllers
-                              .map((controller) => controller.text)
-                              .join();
-                          // Triggering onCompleted Callback
-                          // on all otp fields complete
-                          widget.onCompleted?.call(otp);
-                          setState(() {
-                            _isFilled = true;
-                          });
-                        } else {
-                          setState(() {
-                            _isFilled = false;
-                          });
-                        }
-                      },
-                    ),
-                  );
-                },
-              );
-            }),
-          ),
-          // Resend Button
-          if (widget.showResendButton)
-            ValueListenableBuilder<int>(
-              valueListenable: _counter,
-              builder: (context, value, child) {
-                _isResendEnabled = value == 0;
-                return GestureDetector(
-                  onTap: _isResendEnabled
-                      ? () {
-                          if (_isFilled) {
-                            _startCountDown();
-                            widget.onResend?.call();
-                          }
-                        }
-                      : null,
-                  child: Text(
-                    _isResendEnabled
-                        ? widget.resendText
-                        : '${widget.resendText} $value',
-                    style: TextStyle(
-                      color: (_isResendEnabled && _isFilled)
-                          ? widget.resendEnableColor
-                          : widget.resendDisableColor,
-                      fontSize: widget.resendFontSize ?? 14,
-                      fontWeight: widget.resendFontWeight,
-                      fontFamily: widget.resendFontFamily,
-                    ),
+                      // Automatically move to the next
+                      //or previous field based on input
+                      if (value.isNotEmpty && index < widget.fields - 1) {
+                        _updateFocusState(index + 1);
+                        FocusScope.of(context).nextFocus();
+                      } else if (value.isEmpty && index > 0) {
+                        _updateFocusState(index - 1);
+                        FocusScope.of(context).previousFocus();
+                      }
+                      // Submit OTP if all fields are filled
+                      if (widget._otpControllers
+                          .every((controller) => controller.text.isNotEmpty)) {
+                        final otp = widget._otpControllers
+                            .map((controller) => controller.text)
+                            .join();
+                        // Triggering onCompleted Callback
+                        // on all otp fields complete
+                        widget.onCompleted?.call(otp);
+                        setState(() {
+                          _isFilled = true;
+                        });
+                      } else {
+                        setState(() {
+                          _isFilled = false;
+                        });
+                      }
+                    },
                   ),
                 );
               },
-            )
-          else
-            const SizedBox(),
-        ],
-      ),
+            );
+          }),
+        ),
+        // Resend Button
+        if (widget.showResendButton)
+          ValueListenableBuilder<int>(
+            valueListenable: _counter,
+            builder: (context, value, child) {
+              _isResendEnabled = value == 0;
+              return GestureDetector(
+                onTap: _isResendEnabled
+                    ? () {
+                        if (_isFilled) {
+                          _startCountDown();
+                          widget.onResend?.call();
+                        }
+                      }
+                    : null,
+                child: Text(
+                  _isResendEnabled
+                      ? widget.resendText
+                      : '${widget.resendText} $value',
+                  style: TextStyle(
+                    color: (_isResendEnabled && _isFilled)
+                        ? widget.resendEnableColor
+                        : widget.resendDisableColor,
+                    fontSize: widget.resendFontSize ?? 14,
+                    fontWeight: widget.resendFontWeight,
+                    fontFamily: widget.resendFontFamily,
+                  ),
+                ),
+              );
+            },
+          )
+        else
+          const SizedBox(),
+      ],
     );
   }
 }

@@ -33,22 +33,26 @@ class Home extends StatelessWidget {
       appBar: AppBar(
         title: Text('Otpify Demo'),
       ),
-      body: Otpify(
-        fields: 5,
-        resendSecond: 15,
-        borderRadiusValue: 16,
-        resendAlignment: ResendAlignment.start,
-        resendText: 'Resend code',
-        resendDisableColor: Colors.grey[600],
-        onChanged: (value) {
-          /// Perform action on field change.
-        },
-        onCompleted: (code) {
-          /// Assign [code] to your TextController to get the full code.
-        },
-        onResend: () {
-          /// Initiate OnResendEvent()
-        },
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Otpify(
+          fields: 5,
+          resendSecond: 15,
+          fieldColor: Colors.amber,
+          borderRadiusValue: 16,
+          resendAlignment: ResendAlignment.start,
+          resendText: 'Resend code',
+          resendDisableColor: Colors.grey[600],
+          onChanged: (value) {
+            /// Perform action on field change.
+          },
+          onCompleted: (code) {
+            /// Assign [code] to your TextController to get the full code.
+          },
+          onResend: () {
+            /// Initiate OnResendEvent()
+          },
+        ),
       ),
     );
   }

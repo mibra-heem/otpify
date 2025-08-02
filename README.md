@@ -20,7 +20,7 @@ To use Otpify in your Flutter project, add it as a dependency in your `pubspec.y
 
 ```yaml  
 dependencies:  
-  otpify: ^0.1.6  
+  otpify: ^0.1.7  
 ```  
 
 Then, run the following command to fetch the package:  
