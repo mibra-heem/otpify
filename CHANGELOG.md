@@ -2,6 +2,12 @@
 
 ## Version 0.1.7 (2025-08-02)
 - Updated the `lib/otpify.dart` file.
+- Border Theme fix.
+
+---
+
+## Version 0.1.7 (2025-08-02)
+- Updated the `lib/otpify.dart` file.
 - InputDecoration fix.
 
 ---
